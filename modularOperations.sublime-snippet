@@ -1,0 +1,57 @@
+<snippet>
+  <content><![CDATA[
+int mod_exp(int a, int b, int mod)
+{
+    int res = 1;
+    while (b > 0)
+    {
+        if (b & 1)
+            res = (res * a) % mod;
+        a = (a * a) % mod;
+        b = b >> 1;
+    }
+    return res % mod;
+}
+int mod_mul(int a, int b, int m)
+{
+    a = a % m;
+    b = b % m;
+    return (((a * b) % m) + m) % m;
+}
+int mod_sub(int a, int b, int m)
+{
+    a = a % m;
+    b = b % m;
+    return (((a - b) % m) + m) % m;
+}
+int extended_gcd(int a, int b, int &x, int &y)
+{
+    if (b == 0)
+    {
+        x = 1;
+        y = 0;
+        return x;
+    }
+    int gcd = extended_gcd(b, a % b, y, x);
+    y -= x * (a / b);
+    return gcd;
+}
+int mod_inv(int a, int b)
+{
+    int r1, r2;
+    int gcd = extended_gcd(a, b, r1, r2);
+    assert(gcd == 1);
+    return r1;
+}
+int mod_div(int a, int b, int m)
+{
+    a = a % m;
+    b = b % m;
+    return (mod_mul(a, mod_inv(b, m), m) + m) % m;
+}
+]]></content>
+  <tabTrigger>modularOperations</tabTrigger>
+  <description>mod operations</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
