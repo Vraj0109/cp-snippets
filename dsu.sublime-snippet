@@ -1,0 +1,39 @@
+<snippet>
+  <content><![CDATA[
+class dsu{
+public:
+    vector<int> rank;
+    vector<int> parent;
+    dsu(int n){
+        rank = vector<int>(n,0);
+        for(int i = 0;i<n;i++) parent.push_back(i);
+    }
+    int findParent(int node){
+        if(parent[node] == node) return node;
+        return parent[node] = findParent(parent[node]); 
+    }
+    void unionByRank(int u,int v){
+        int ul_u = findParent(u);
+        int ul_v = findParent(v);
+        if(ul_u == ul_v) return;
+        if(rank[ul_u] > rank[ul_v]){
+            parent[ul_v] = ul_u;
+            parent[v] = ul_u;
+        }
+        else if(rank[ul_u] < rank[ul_v]){
+            parent[ul_u] = ul_v;
+            parent[u] = ul_v;
+        }
+        else{
+            parent[ul_u] = ul_v;
+            parent[u] = ul_v;
+            rank[ul_v]++;
+        }
+    }
+};
+]]></content>
+  <tabTrigger>disJointSetUnion</tabTrigger>
+  <description>disjoing set union template</description>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <!-- <scope >source.python</scope > -->
+</snippet>
